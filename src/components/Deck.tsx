@@ -38,15 +38,21 @@ export const Deck = () => {
   }, [])
 
   const shuffleDeck = (x: DeckState[]) => {
+    // set current index to length of array, declare a random index vat
     let currentIndex = x.length,
       randomIndex
 
+    // while the current index is greater than zero
     while (currentIndex > 0) {
+      // the randomIndex var to a random number rounded down from the current index
       randomIndex = Math.floor(Math.random() * currentIndex)
+      // iterate currentIndex down
       currentIndex--
+      // swap array elements
       ;[x[currentIndex], x[randomIndex]] = [x[randomIndex], x[currentIndex]]
     }
 
+    // set array with swapped items
     setDeck([...x])
   }
 

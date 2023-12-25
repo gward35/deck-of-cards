@@ -14,6 +14,7 @@ export const Card = ({ data }: CardProps) => {
       display="flex"
       flexDirection="column"
       border="1px solid"
+      borderColor="#000"
       borderRadius="5px"
       padding={8}
       margin={8}
