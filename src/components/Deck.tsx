@@ -9,6 +9,7 @@ export interface DeckState {
 
 export const Deck = () => {
   const [deck, setDeck] = useState<DeckState[]>([])
+  const [isShowing, setIsShowing] = useState(true)
   const suites = ['♥️', '♣️', '♦️', '♠️']
   const values = [
     'A',
@@ -38,8 +39,9 @@ export const Deck = () => {
   }, [])
 
   const shuffleDeck = (x: DeckState[]) => {
-    // set current index to length of array, declare a random index vat
-    let currentIndex = x.length,
+    // set current index to length of array, declare a random index var
+    const newArr = [...x]
+    let currentIndex = newArr.length,
       randomIndex
 
     // while the current index is greater than zero
@@ -49,20 +51,30 @@ export const Deck = () => {
       // iterate currentIndex down
       currentIndex--
       // swap array elements
-      ;[x[currentIndex], x[randomIndex]] = [x[randomIndex], x[currentIndex]]
+      ;[newArr[currentIndex], newArr[randomIndex]] = [
+        newArr[randomIndex],
+        newArr[currentIndex],
+      ]
     }
 
-    // set array with swapped items
-    setDeck([...x])
+    // set state with swapped items
+    setDeck(newArr)
   }
 
   return (
     <Box>
       <Text as="p">Number of Cards: {deck.length}</Text>
-      <Button onClick={() => shuffleDeck(deck)}>Shuffle Deck</Button>
+      <Box display="flex" justifyContent="center">
+        <Button borderColor="#000" mr={8} onClick={() => shuffleDeck(deck)}>
+          Shuffle Deck
+        </Button>
+        <Button borderColor="#000" onClick={() => setIsShowing(!isShowing)}>
+          {!isShowing ? 'Show Cards' : 'Hide Cards'}
+        </Button>
+      </Box>
       <Box display="flex" flexDirection="row" flexWrap="wrap">
         {deck.map(d => (
-          <Card key={crypto.randomUUID()} data={d} />
+          <Card key={crypto.randomUUID()} data={d} show={isShowing} />
         ))}
       </Box>
     </Box>
